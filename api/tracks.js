@@ -14,14 +14,19 @@ tracksRouter.get("/", async (req, res, next) => {
 });
 
 //GET /tracks/:id
-tracks.Router.get("/:id", async (req, res, next) => {
+tracksRouter.get("/:id", async (req, res, next) => {
     try {
-        const track = await getTrackById(req.params.id);
+        const id = Number(req.params.id);
+        if (isNaN(id)) return res.status(400).json({error:"ID must be a number"});
+
+        const track = await getTrackById(Number(req.params.id));
         if (!track) return res.status(404).json({error:"Track not found"});
-        res.send(track);
+        
+        return res.json(track);
     } catch (error) {
         next(error);
+        return res.status(500).send({error:"Server error"});
     }
 })
 
-export default fileRouter;
+export default tracksRouter;

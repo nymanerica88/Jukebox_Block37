@@ -95,3 +95,18 @@ export async function addTrackToPlaylist({playlist_id, track_id}) {
         throw error;
     }
 }
+
+// export async function doesPlaylistExist(id) {
+//     try {
+//         const sql = `
+//         SELECT 1 FROM playlists WHERE id = $1;
+//         `;
+
+//         const values = [id];
+//         const result = await db.query(sql, values);
+//         return result.rowCount > 0;
+//     } catch (error) {
+//         console.error("Playlist does not exist",error);
+//         throw error;
+//     }
+// }

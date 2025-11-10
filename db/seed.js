@@ -1,4 +1,7 @@
-import db from "#db/client";
+import db from "./client.js";
+import { createTrack } from "./queries/tracks.js";
+import { createPlaylist } from "./queries/playlists.js";
+import { addTrackToPlaylist } from "./queries/playlists.js";
 
 await db.connect();
 await seed();
@@ -6,7 +9,6 @@ await db.end();
 console.log("🌱 Database seeded.");
 
 async function seed() {
-  async function seed() {
   // ---- Create 10 Playlists ----
   const playlist1 = await createPlaylist({ name: "90s R&B Hits", description: "Classic R&B tracks from the 1990s" });
   const playlist2 = await createPlaylist({ name: "00s Pop Party", description: "Pop bangers from the 2000s" });
@@ -89,5 +91,4 @@ async function seed() {
   await addTrackToPlaylist({ playlist_id: playlist10.id, track_id: track20.id });
 
   console.log("✅ 22 playlist-track entries created!");
-}
 }
