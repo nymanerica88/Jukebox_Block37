@@ -45,27 +45,11 @@ export async function getTrackById(id) {
 
         const values = [id];
         const {rows} = await db.query(sql,values);
-        return rows;
+        return rows[0] || null;
     } catch (error) {
         console.error(`Error getting all tracks`, error);
         throw error;
     }
 }
-
-// //Does the track exist?
-// export async function doesTrackExist(id) {
-//     try {
-//         const sql = `
-//         SELECT 1 FROM tracks WHERE id = $1;
-//         `;
-
-//         const values = [id];
-//         const result = await db.query(sql, values);
-//         return result.rowCount > 0;
-//     } catch (error) {
-//         console.error("Track does not exist",error);
-//         throw error;
-//     }
-// }
 
 

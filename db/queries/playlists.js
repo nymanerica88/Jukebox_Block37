@@ -61,7 +61,7 @@ export async function getPlaylistTracks(playlist_id) {
         const sql = `
         SELECT *
         FROM tracks
-        JOIN playlists_tracks ON tracks.id = playlists_tracks.track.id
+        JOIN playlists_tracks ON tracks.id = playlists_tracks.track_id
         WHERE playlists_tracks.playlist_id = $1
         ORDER BY tracks.id;        
         `;
@@ -89,24 +89,24 @@ export async function addTrackToPlaylist({playlist_id, track_id}) {
         const values = [playlist_id, track_id];
         const {rows} = await db.query(sql, values);
         console.log(`Track has been added to the playlist`, rows[0]);
-        return rows[0];
+        return rows[0] || null;
     } catch (error) {
-        console.error(`This track already exists in this playlist`, error);
+        console.error(`Error adding track to playlist`, error);
         throw error;
     }
 }
 
-// export async function doesPlaylistExist(id) {
-//     try {
-//         const sql = `
-//         SELECT 1 FROM playlists WHERE id = $1;
-//         `;
+export async function doesPlaylistExist(id) {
+    try {
+        const sql = `
+        SELECT 1 FROM playlists WHERE id = $1;
+        `;
 
-//         const values = [id];
-//         const result = await db.query(sql, values);
-//         return result.rowCount > 0;
-//     } catch (error) {
-//         console.error("Playlist does not exist",error);
-//         throw error;
-//     }
-// }
+        const values = [id];
+        const result = await db.query(sql, values);
+        return result.rowCount > 0;
+    } catch (error) {
+        console.error("Playlist does not exist",error);
+        throw error;
+    }
+}
